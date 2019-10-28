@@ -13,6 +13,10 @@ pip install niicat
 
 #### Usage:
 
+```
+niicat T1.nii.gz
+```
+
 ![](niicat/resources/example.gif)
 
 

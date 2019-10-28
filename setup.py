@@ -23,7 +23,7 @@ setup(name='niicat',
       classifiers=[
           'Intended Audience :: Science/Research',
           'Programming Language :: Python',
-          'Topic :: Scientific',
+          'Topic :: Scientific/Engineering :: Bio-Informatics',
           'Operating System :: Unix',
           'Operating System :: MacOS'
       ],
