@@ -29,5 +29,6 @@ setup(name='niicat',
       ],
       scripts=[
           'bin/niicat'
-      ]
+      ],
+      package_data={'niicat.resources': ['imgcat.sh', 'niipre.py']},
 )

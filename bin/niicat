@@ -2,7 +2,7 @@
 
 import os
 import argparse
-
+from pkg_resources import resource_filename
 
 def main():
     parser = argparse.ArgumentParser(description="Generate previews of nifti image on the terminal.",
@@ -10,10 +10,8 @@ def main():
     parser.add_argument("nifti_file")
     args = parser.parse_args()
 
-    package_path = os.path.dirname(os.path.realpath(__file__))
-
-    niipre_path = os.path.join(package_path, '../resources', 'niipre.py')
-    imgcat_path = os.path.join(package_path, '../resources', 'imgcat.sh')
+    niipre_path = resource_filename('niicat.resources', 'niipre.py')
+    imgcat_path = resource_filename('niicat.resources', 'imgcat.sh')
 
     os.system("python " + niipre_path + " " + args.nifti_file + " | " + imgcat_path)
 

@@ -13,7 +13,7 @@ pip install niicat
 
 #### Usage:
 
-![](resources/example.gif)
+![](niicat/resources/example.gif)
 
 
 #### This code is based on the following code:
