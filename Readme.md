@@ -7,7 +7,7 @@ If you add the option `-ic` it will use [iTerm2's](https://www.iterm2.com/) `img
 to display the images.
 
 
-#### Install:
+### Install:
 
 ```
 pip install niicat
@@ -33,7 +33,7 @@ Also check out the [terminal requirements](https://github.com/saitoha/libsixel#t
 libsixel to work.
 
 
-#### Usage:
+### Usage:
 
 ```
 niicat T1.nii.gz
@@ -42,7 +42,7 @@ niicat T1.nii.gz
 ![](niicat/resources/example.gif)
 
 
-#### This code is based on the following code:
+### This code is based on the following code:
 
 [niipre](https://github.com/vnckppl/niipre)  
 [imgcat](https://www.iterm2.com/utilities/imgcat)
