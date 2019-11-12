@@ -1,9 +1,13 @@
 
 import io
-import libsixel
 import nibabel as nb
 import numpy as np
 import matplotlib.pyplot as plt
+
+try:
+    import libsixel
+except ImportError:
+    pass
 
 
 def _sixel_encode(data, width, height):
