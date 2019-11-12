@@ -29,7 +29,7 @@ def plot_sixel(fig=None):
     print(res)
 
 
-def plot_preview(iFile, dpi=120):
+def plot_preview(iFile, return_fig=False, dpi=120):
 
     # Disable Toolbar for plots
     plt.rcParams['toolbar'] = 'None'
@@ -212,4 +212,7 @@ def plot_preview(iFile, dpi=120):
     # Adjust whitespace
     plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
 
-    plot_sixel(fig)
+    if return_fig:
+        return fig
+    else:
+        plot_sixel(fig)

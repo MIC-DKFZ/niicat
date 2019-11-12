@@ -1,15 +1,34 @@
 #!/usr/bin/env python
 
+import os
 import argparse
 from niicat.niipre import plot_preview
+from pkg_resources import resource_filename
 
 def main():
     parser = argparse.ArgumentParser(description="Generate previews of nifti image on the terminal.",
                                     epilog="Written by Jakob Wasserthal")
     parser.add_argument("nifti_file")
+    parser.add_argument("-ic", action="store_true",
+                        help="Use iTerm2's imgcat instead of libsixel-python to plot the image.",
+                        default=False)
+    parser.add_argument("-lb", action="store_true",
+                        help="Use libsixel-bin instead of libsixel-python to plot the image.",
+                        default=False)
     args = parser.parse_args()
 
-    plot_preview(args.nifti_file)
+
+    if args.ic:
+        niipre_path = resource_filename('niicat.resources', 'niipre_to_buffer.py')
+        imgcat_path = resource_filename('niicat.resources', 'imgcat.sh')
+        os.system("python " + niipre_path + " " + args.nifti_file + " | " + imgcat_path)
+    elif args.lb:
+        niipre_path = resource_filename('niicat.resources', 'niipre_to_buffer.py')
+        imgcat_path = "img2sixel"
+        os.system("python " + niipre_path + " " + args.nifti_file + " | " + imgcat_path)
+    else:
+        plot_preview(args.nifti_file)
+
 
 if __name__ == '__main__':
     main()
