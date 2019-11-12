@@ -4,7 +4,7 @@ with open("Readme.md", "r") as f:
     long_description = f.read()
 
 setup(name='niicat',
-      version='0.2.1',
+      version='0.3',
       description='Preview nifti images on the terminal',
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -17,7 +17,8 @@ setup(name='niicat',
       install_requires=[
           'nibabel>=2.3.0',
           'matplotlib',
-          'numpy'
+          'numpy',
+          'libsixel-python'
       ],
       zip_safe=False,
       classifiers=[
