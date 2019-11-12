@@ -5,18 +5,14 @@
 # Packages
 import nibabel as nb
 import numpy as np
-import os
 import sys
-from pathlib import Path
 import matplotlib.pyplot as plt
 
 # Disable Toolbar for plots
 plt.rcParams['toolbar'] = 'None'
 
 # Environment and file names
-home = str(Path.home())
 iFile = sys.argv[1]
-oFile = (str(os.path.basename(iFile).replace('.nii.gz', '.png').replace('.nii', '.png')))
 
 # Set rounding
 np.set_printoptions(formatter={'float': lambda x: "{0:0.2f}".format(x)})
@@ -88,9 +84,6 @@ fig = plt.figure(
 
 # Black background
 plt.style.use('dark_background')
-
-# Set title
-fig.canvas.set_window_title(oFile.replace('.png', ''))
 
 # Coronal
 ax1 = fig.add_subplot(2, 2, 1)
