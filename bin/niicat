@@ -5,6 +5,13 @@ import argparse
 from niicat.niipre import plot_preview
 from pkg_resources import resource_filename
 
+
+def is_executable(name):
+    """Check whether `name` is on PATH and marked as executable."""
+    from shutil import which
+    return which(name) is not None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate previews of nifti image on the terminal.",
                                     epilog="Written by Jakob Wasserthal")
@@ -25,7 +32,11 @@ def main():
     elif args.lb:
         niipre_path = resource_filename('niicat.resources', 'niipre_to_buffer.py')
         imgcat_path = "img2sixel"
-        os.system("python " + niipre_path + " " + args.nifti_file + " | " + imgcat_path)
+        if is_executable(imgcat_path):
+            os.system("python " + niipre_path + " " + args.nifti_file + " | " + imgcat_path)
+        else:
+            print("ERROR: the command 'img2sixel' is not available in your PATH. " +
+                  "Install libsixel-bin to make it available.")
     else:
         plot_preview(args.nifti_file)
 

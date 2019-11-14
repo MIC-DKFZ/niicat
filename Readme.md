@@ -33,6 +33,8 @@ This is a known [problem](https://github.com/fastai/fastai/issues/2170) when usi
 In this case try using niicat with the option `-ic` if you are using iterm2 (this will use `imgcat` from iterm2) or 
 with the option `-lb` (this will use `libsixel-bin` which can be installed via `sudo apt install libsixel-bin`).
 
+Niicat was only tested on python >= 3.5.
+
 
 ### This code is based on the following code:
 

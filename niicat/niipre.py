@@ -1,13 +1,17 @@
 
 import io
+import importlib
 import nibabel as nb
 import numpy as np
 import matplotlib.pyplot as plt
 
-try:
-    import libsixel
-except ImportError:
-    pass
+
+def try_import(module):
+    "Try to import `module`. Returns module's object on success, None on failure"
+    try: return importlib.import_module(module)
+    except: return None
+
+libsixel = try_import("libsixel")
 
 
 def _sixel_encode(data, width, height):
@@ -24,7 +28,7 @@ def _sixel_encode(data, width, height):
 def plot_sixel(fig=None):
     """Adapted from https://github.com/fastai/fastai/blob/master/fastai/sixel.py"""
     if not libsixel:
-        print("You could see this plot with `libsixel`. See https://github.com/saitoha/libsixel")
+        print("You could see this plot with `libsixel-python`. See https://github.com/saitoha/libsixel")
         return
     if fig is None: fig = plt.gcf()
     fig.canvas.draw()
