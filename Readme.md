@@ -3,6 +3,7 @@
 This is a tool to quickly preview nifti images on the terminal. 
 This can be helpful if you are working on a remote server via SSH and do not have
 a -X connection. It uses [libsixel](https://github.com/saitoha/libsixel) to display the images.
+Niicat can also display png, jpg or similar images.
 
 
 ### Install:

@@ -1,9 +1,9 @@
 
 import sys
 import matplotlib.pyplot as plt
-from niicat.niipre import plot_preview
+from niicat.plotter import plot
 
 iFile = sys.argv[1]
-fig = plot_preview(iFile, return_fig=True)
-# fig = plt.gcf()
-plt.savefig(sys.stdout.buffer, dpi=120)
+dpi = int(sys.argv[2])
+fig = plot(iFile, return_fig=True)
+plt.savefig(sys.stdout.buffer, dpi=dpi)

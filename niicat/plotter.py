@@ -25,10 +25,10 @@ def _sixel_encode(data, width, height):
     return s.getvalue().decode('ascii')
 
 
-def plot_sixel(fig=None):
+def _plot_sixel(fig=None):
     """Adapted from https://github.com/fastai/fastai/blob/master/fastai/sixel.py"""
     if not libsixel:
-        print("You could see this plot with `libsixel-python`. See https://github.com/saitoha/libsixel")
+        print("`libsixel-python` is missing. See https://github.com/saitoha/libsixel")
         return
     if fig is None: fig = plt.gcf()
     fig.canvas.draw()
@@ -37,7 +37,8 @@ def plot_sixel(fig=None):
     print(res)
 
 
-def plot_preview(iFile, return_fig=False, dpi=120):
+def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
+    """Adapted from https://github.com/vnckppl/niipre"""
 
     # Disable Toolbar for plots
     plt.rcParams['toolbar'] = 'None'
@@ -223,4 +224,27 @@ def plot_preview(iFile, return_fig=False, dpi=120):
     if return_fig:
         return fig
     else:
-        plot_sixel(fig)
+        _plot_sixel(fig)
+
+
+def _plot_img(iFile, return_fig=False, dpi=150):
+    image = plt.imread(iFile)
+    fig, ax = plt.subplots(dpi=dpi)
+    ax.imshow(image)
+    ax.axis('off')
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
+    if return_fig:
+        return fig
+    else:
+        _plot_sixel(fig)
+
+
+def _is_nifti_file(filename):
+    return filename.lower().endswith((".nii.gz", ".nii"))
+
+
+def plot(iFile, return_fig=False, dpi=150):
+    if _is_nifti_file(iFile):
+        return _plot_nifti_preview(iFile, return_fig=return_fig, dpi=dpi)
+    else:
+        return _plot_img(iFile, return_fig=return_fig, dpi=dpi)
