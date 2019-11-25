@@ -98,12 +98,22 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     elif qfX > 0 and (sfX == 0 or sfX > 0):
         oL = 'L'
         oR = 'R'
+    else:
+        oL = ''
+        oR = ''
+
     if sfX < 0 and (qfX == 0 or qfX < 0):
         oL = 'R'
         oR = 'L'
     elif sfX > 0 and (qfX == 0 or qfX > 0):
         oL = 'L'
         oR = 'R'
+    else:
+        oL = ''
+        oR = ''
+
+    # This gives different results
+    # oL = nb.aff2axcodes(image.affine)[0]
 
     ### PLOTTING ###
 
