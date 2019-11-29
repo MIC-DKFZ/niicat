@@ -37,6 +37,7 @@ with the option `-lb` (this will use `libsixel-bin` which can be installed via `
 Niicat was only tested on python >= 3.5.
 
 
-### This code is based on the following code:
+### License
 
-[niipre](https://github.com/vnckppl/niipre)  
+Copyright © German Cancer Research Center (DKFZ), Division of Medical Image Computing (MIC).
+Please make sure that your usage of this code is in compliance with the [code license](LICENSE).

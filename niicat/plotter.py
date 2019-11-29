@@ -49,7 +49,6 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     # Set rounding
     np.set_printoptions(formatter={'float': lambda x: "{0:0.2f}".format(x)})
 
-    ### IMPORT DATA ###
     # Load data
     image = nb.load(iFile)
 
@@ -65,8 +64,6 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
 
     # Set NAN to 0
     data[np.isnan(data)] = 0
-
-    ### PREPARE SOME PARAMETERS ###
 
     # Spacing for Aspect Ratio
     sX = header['pixdim'][1]
@@ -88,7 +85,7 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     tmY = lY / 2.0
     tmZ = lZ / 2.0
 
-    ### ORIENTATION ###
+    # Orientation
     qfX = image.get_qform()[0, 0]
     sfX = image.get_sform()[0, 0]
 
@@ -115,7 +112,6 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     # This gives different results
     # oL = nb.aff2axcodes(image.affine)[0]
 
-    ### PLOTTING ###
 
     # Plot main window
     fig = plt.figure(
