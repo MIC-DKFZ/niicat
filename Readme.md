@@ -1,5 +1,8 @@
 # niicat
 
+Copyright © German Cancer Research Center (DKFZ), Division of Medical Image Computing (MIC).
+Please make sure that your usage of this code is in compliance with the [code license](LICENSE).
+
 This is a tool to quickly preview nifti images on the terminal. 
 This can be helpful if you are working on a remote server via SSH and do not have
 a -X connection. It uses [libsixel](https://github.com/saitoha/libsixel) to display the images.
@@ -36,8 +39,3 @@ with the option `-lb` (this will use `libsixel-bin` which can be installed via `
 
 Niicat was only tested on python >= 3.5.
 
-
-### License
-
-Copyright © German Cancer Research Center (DKFZ), Division of Medical Image Computing (MIC).
-Please make sure that your usage of this code is in compliance with the [code license](LICENSE).
