@@ -29,13 +29,5 @@ niicat T1.nii.gz
 
 If nothing is displayed check if your [terminal supports sixel](https://github.com/saitoha/libsixel#terminal-requirements).
 
-You might also encounter the following error message:
-```
-ctypes.ArgumentError: argument 2: <class 'TypeError'>: wrong type
-```
-This is a known [problem](https://github.com/fastai/fastai/issues/2170) when using libsixel-python. 
-In this case try using niicat with the option `-ic` if you are using iterm2 (this will use `imgcat` from iterm2) or 
-with the option `-lb` (this will use `libsixel-bin` which can be installed via `sudo apt install libsixel-bin`).
-
 Niicat was only tested on python >= 3.5.
 
