@@ -33,7 +33,7 @@ def _plot_sixel(fig=None):
     if fig is None: fig = plt.gcf()
     fig.canvas.draw()
     dpi = fig.get_dpi()
-    res = _sixel_encode(fig.canvas.buffer_rgba().tobytes(), fig.get_figwidth()* dpi, fig.get_figheight() * dpi)
+    res = _sixel_encode(fig.canvas.buffer_rgba(), fig.get_figwidth()* dpi, fig.get_figheight() * dpi)
     print(res)
 
 
