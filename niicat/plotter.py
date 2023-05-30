@@ -54,10 +54,10 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
 
     # 3D data
     if image.header['dim'][0] == 3:
-        data = image.get_data()
+        data = image.get_fdata()
         # 4D data
     elif image.header['dim'][0] == 4:
-        data = image.get_data()[:, :, :, 0]
+        data = image.get_fdata()[:, :, :, 0]
 
     # Header
     header = image.header
