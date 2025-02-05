@@ -18,9 +18,11 @@ setup(name='niicat',
           'nibabel>=2.3.0',
           'matplotlib',
           'numpy',
-          'libsixel-python',
           'importlib-metadata;python_version<"3.8"'
       ],
+      extras_require={
+          'libsixel': ['libsixel-python'],
+      },
       zip_safe=False,
       classifiers=[
           'Intended Audience :: Science/Research',
