@@ -36,7 +36,7 @@ def _plot_sixel(fig=None):
     print(res)
 
 
-def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
+def _plot_nifti_preview(iFile, return_fig=False, dpi=150, slice_num=None):
     """Adapted from https://github.com/vnckppl/niipre"""
 
     # Disable Toolbar for plots
@@ -82,15 +82,24 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     lY = data.shape[1]
     lZ = data.shape[2]
 
-    # Middle slice number
-    mX = int(lX / 2)
-    mY = int(lY / 2)
-    mZ = int(lZ / 2)
+    # Validate slice number is within bounds
+    if slice_num is not None:
+        min_dim = min([lX, lY, lZ])  # Use explicit built-in min
+        if slice_num < 0 or slice_num >= min_dim:
+            raise ValueError(f"Slice number {slice_num} is out of bounds. Must be between 0 and {min_dim-1}")
+        # Invert the slice numbers to match medical convention
+        mX = (lX - 1 - slice_num) if slice_num < lX else int(lX / 2)
+        mY = (lY - 1 - slice_num) if slice_num < lY else int(lY / 2)
+        mZ = (lZ - 1 - slice_num) if slice_num < lZ else int(lZ / 2)
+    else:
+        mX = int(lX / 2)
+        mY = int(lY / 2)
+        mZ = int(lZ / 2)
 
-    # True middle point
-    tmX = lX / 2.0
-    tmY = lY / 2.0
-    tmZ = lZ / 2.0
+    # True middle point (for crosshair)
+    tmX = mX
+    tmY = mY 
+    tmZ = mZ
 
     # Orientation
     qfX = image.get_qform()[0, 0]
@@ -202,9 +211,9 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
     volumes = ("Volumes: " + str(image.header['dim'][4]))
 
     # Range
-    min = np.round(np.amin(data), decimals=2)
-    max = np.round(np.amax(data), decimals=2)
-    range = ("Range: " + str(min) + " - " + str(max))
+    min_range = np.round(np.amin(data), decimals=2)
+    max_range = np.round(np.amax(data), decimals=2)
+    range = ("Range: " + str(min_range) + " - " + str(max_range))
 
     text = (
             dim + "\n"
@@ -256,8 +265,8 @@ def _is_nifti_file(filename):
     return filename.lower().endswith((".nii.gz", ".nii"))
 
 
-def plot(iFile, return_fig=False, dpi=150):
+def plot(iFile, return_fig=False, dpi=150, slice_num=None):
     if _is_nifti_file(iFile):
-        return _plot_nifti_preview(iFile, return_fig=return_fig, dpi=dpi)
+        return _plot_nifti_preview(iFile, return_fig=return_fig, dpi=dpi, slice_num=slice_num)
     else:
         return _plot_img(iFile, return_fig=return_fig, dpi=dpi)
