@@ -26,11 +26,9 @@ niicat T1.nii.gz
 
 If nothing is displayed check if your [terminal supports sixel](https://github.com/saitoha/libsixel#terminal-requirements).
 
-Per default niicat is trying to use libsixel-python. If this is causing problems you can also try using niicat with 
-the option `-ic` if you are using iterm2 (this will use `imgcat` from iterm2) or 
-with the option `-lb` (this will use `libsixel-bin` which can be installed via `sudo apt install libsixel-bin`).
+Per default niicat is using `imgcat` from iterm2. If this is causing problems or you are not using iterm2 you can also try using niicat with the option `-ls` to use libsixel-python or with the option `-lb` (this will use `libsixel-bin` which can be installed via `sudo apt install libsixel-bin`).
 
-Niicat was only tested on python >= 3.5.
+Niicat was only tested on python >= 3.7.
 
 
 ### Copyright
