@@ -1,4 +1,3 @@
-
 import io
 import importlib
 import nibabel as nb
@@ -51,13 +50,21 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150):
 
     # Load data
     image = nb.load(iFile)
-
-    # 3D data
-    if image.header['dim'][0] == 3:
+    
+    # Handle RGB data differently
+    if image.header.get_data_dtype().fields is not None:  # Check if structured dtype (RGB)
+        data = np.array(image.dataobj)  # Load raw data
+        # Convert structured RGB data back to regular array
+        from numpy.lib import recfunctions as rfn
+        data = rfn.structured_to_unstructured(data)
+        # If 4D with RGB, reshape to 3D
+        if len(data.shape) == 4:
+            data = data[:, :, :, 0]  # Take first RGB component for preview
+    else:
+        # Regular scalar data
         data = image.get_fdata()
-        # 4D data
-    elif image.header['dim'][0] == 4:
-        data = image.get_fdata()[:, :, :, 0]
+        if image.header['dim'][0] == 4:  # 4D data
+            data = data[:, :, :, 0]  # Take first volume
 
     # Header
     header = image.header

@@ -11,14 +11,15 @@ setup(name='niicat',
       url='https://github.com/MIC-DKFZ/niicat/',
       author='Jakob Wasserthal',
       author_email='j.wasserthal@dkfz.de',
-      python_requires='>=2.7',
+      python_requires='>=3.7',
       license='GPL v2',
       packages=find_packages(),
       install_requires=[
           'nibabel>=2.3.0',
           'matplotlib',
           'numpy',
-          'libsixel-python'
+          'libsixel-python',
+          'importlib-metadata;python_version<"3.8"'
       ],
       zip_safe=False,
       classifiers=[
@@ -28,8 +29,10 @@ setup(name='niicat',
           'Operating System :: Unix',
           'Operating System :: MacOS'
       ],
-      scripts=[
-          'bin/niicat'
-      ],
+      entry_points={
+          'console_scripts': [
+              'niicat=niicat.cli:main',
+          ],
+      },
       package_data={'niicat.resources': ['imgcat.sh', 'niipre.py']},
 )

@@ -3,8 +3,8 @@
 import os
 import argparse
 from niicat.plotter import plot
-from pkg_resources import resource_filename
-from pkg_resources import require
+from importlib.metadata import files, version
+from importlib.resources import files as resource_files
 
 def is_executable(name):
     """Check whether `name` is on PATH and marked as executable."""
@@ -26,16 +26,16 @@ def main():
     parser.add_argument("--dpi", metavar="N", type=int,
                         help="resolution for plotting (default: 150).",
                         default=150)
-    parser.add_argument('--version', action='version', version=require("niicat")[0].version)
+    parser.add_argument('--version', action='version', version=version("niicat"))
     args = parser.parse_args()
 
-
+    niicat_files = resource_files('niicat.resources')
     if args.ic:
-        niipre_path = resource_filename('niicat.resources', 'niipre_to_buffer.py')
-        imgcat_path = resource_filename('niicat.resources', 'imgcat.sh')
+        niipre_path = str(niicat_files / 'niipre_to_buffer.py')
+        imgcat_path = str(niicat_files / 'imgcat.sh')
         os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + " | " + imgcat_path)
     elif args.lb:
-        niipre_path = resource_filename('niicat.resources', 'niipre_to_buffer.py')
+        niipre_path = str(niicat_files / 'niipre_to_buffer.py')
         imgcat_path = "img2sixel"
         if is_executable(imgcat_path):
             os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + " | " + imgcat_path)
@@ -47,4 +47,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main() 
