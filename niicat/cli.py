@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import argparse
 from niicat.plotter import plot
 from importlib.metadata import files, version
@@ -33,13 +34,14 @@ def main():
     args = parser.parse_args()
 
     niicat_files = resource_files('niicat.resources')
+    python_path = sys.executable if sys.executable else "python"
     if args.ls:
         plot(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
     elif args.lb:
         niipre_path = str(niicat_files / 'niipre_to_buffer.py')
         imgcat_path = "img2sixel"
         if is_executable(imgcat_path):
-            os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
+            os.system(python_path + " " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
                      " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
         else:
             print("ERROR: the command 'img2sixel' is not available in your PATH. " +
@@ -47,7 +49,7 @@ def main():
     else:
         niipre_path = str(niicat_files / 'niipre_to_buffer.py')
         imgcat_path = str(niicat_files / 'imgcat.sh')
-        os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
+        os.system(python_path + " " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
                  " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
 
 
