@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import os
+import subprocess
+import sys
 import argparse
 from niicat.plotter import plot
 from importlib.metadata import files, version
@@ -39,17 +40,20 @@ def main():
         niipre_path = str(niicat_files / 'niipre_to_buffer.py')
         imgcat_path = "img2sixel"
         if is_executable(imgcat_path):
-            os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
-                     " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
+            slice_arg = f" {args.slice}" if args.slice is not None else ""
+
+            command = f"{sys.executable} {niipre_path} {args.nifti_file} {args.dpi}{slice_arg} | {imgcat_path}"
+            subprocess.run(command, shell=True, check=True)
         else:
             print("ERROR: the command 'img2sixel' is not available in your PATH. " +
                   "Install libsixel-bin to make it available.")
     else:
         niipre_path = str(niicat_files / 'niipre_to_buffer.py')
         imgcat_path = str(niicat_files / 'imgcat.sh')
-        os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
-                 " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
+        slice_arg = f" {args.slice}" if args.slice is not None else ""
 
+        command = f"{sys.executable} {niipre_path} {args.nifti_file} {args.dpi}{slice_arg} | {imgcat_path}"
+        subprocess.run(command, shell=True, check=True)
 
 if __name__ == '__main__':
     main() 
