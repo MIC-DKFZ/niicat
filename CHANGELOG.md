@@ -4,6 +4,7 @@
 * add Pillow dependency
 * add `-kt` option for Kitty graphics protocol
 * use the current Python interpreter / subprocess instead of shelling out to a bare `python` (fixes pipx/venv setups)
+* proper formatting of affine table
 
 ## Release 0.5.0
 * support rgb dtypes

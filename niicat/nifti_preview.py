@@ -3,11 +3,30 @@ import nibabel as nb
 from PIL import Image, ImageDraw, ImageFont
 
 
-def _font(size):
+def _font(size, monospace=False):
+    name = "DejaVuSansMono.ttf" if monospace else "DejaVuSans.ttf"
     try:
-        return ImageFont.truetype("DejaVuSans.ttf", size)
+        return ImageFont.truetype(name, size)
     except OSError:
         return ImageFont.load_default()
+
+
+def _format_affine(affine):
+    """Format affine with aligned columns; exact zeros as 0."""
+    affine = np.asarray(affine, dtype=float)
+
+    def cell(x):
+        if x == 0:
+            return "0"
+        return f"{x:.6g}"
+
+    cells = [[cell(v) for v in row] for row in affine]
+    widths = [max(len(row[c]) for row in cells) for c in range(affine.shape[1])]
+    lines = [
+        " ".join(value.rjust(widths[c]) for c, value in enumerate(row))
+        for row in cells
+    ]
+    return "\n".join(lines)
 
 
 def _normalize_slice(data):
@@ -158,8 +177,8 @@ def save_nifti_preview(filename, output, dpi=200, slice_num=None):
     else:
         range_text = "nan - nan"
 
-    sform = np.array2string(np.round(image.get_sform(), 2))
-    qform = np.array2string(np.round(image.get_qform(), 2))
+    sform = _format_affine(image.get_sform())
+    qform = _format_affine(image.get_qform())
     text = (
         f"Dimensions: {length_x} x {length_y} x {length_z}\n"
         f"Spacing: {spacing_x:.2f} x {spacing_y:.2f} x {spacing_z:.2f} mm\n"
@@ -169,7 +188,7 @@ def save_nifti_preview(filename, output, dpi=200, slice_num=None):
         f"sform code:\n{sform}\n\n"
         f"qform code:\n{qform}"
     )
-    text_font = _font(max(8, round(6 * dpi / 72)))
+    text_font = _font(max(8, round(6 * dpi / 72)), monospace=True)
     draw.multiline_text(
         (half_width + round(0.075 * width), half_height + round(0.025 * height)),
         text,

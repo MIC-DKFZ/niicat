@@ -183,13 +183,10 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150, slice_num=None):
     plt.text(-10, mY + 5, oL, fontsize=9, color='red')  # Label on left side
 
     # Textual information
-    # sform code
-    sform = np.round(image.get_sform(), decimals=2)
-    sform_txt = str(sform).replace('[', ' ').replace(']', ' ').replace(' ', '   ').replace('   -', '  -')
+    from niicat.nifti_preview import _format_affine
 
-    # qform code
-    qform = np.round(image.get_qform(), decimals=2)
-    qform_txt = str(qform).replace('[', ' ').replace(']', ' ').replace(' ', '   ').replace('   -', '  -')
+    sform_txt = _format_affine(image.get_sform())
+    qform_txt = _format_affine(image.get_qform())
 
     # Dimensions
     dims = str(data.shape).replace(', ', ' x ').replace('(', '').replace(')', '')
@@ -239,6 +236,7 @@ def _plot_nifti_preview(iFile, return_fig=False, dpi=150, slice_num=None):
         verticalalignment='top',
         size=6,
         color='white',
+        family='monospace',
     )
     plt.axis('off')
 
