@@ -1,15 +1,28 @@
 #!/usr/bin/env python
 
-import os
 import argparse
-from niicat.plotter import plot
-from importlib.metadata import files, version
+import subprocess
+from importlib.metadata import version
 from importlib.resources import files as resource_files
+
 
 def is_executable(name):
     """Check whether `name` is on PATH and marked as executable."""
     from shutil import which
     return which(name) is not None
+
+
+def is_nifti_file(filename):
+    return filename.lower().endswith((".nii.gz", ".nii"))
+
+
+def run_nifti_preview(display_command, filename, dpi, slice_num):
+    from niicat.nifti_preview import save_nifti_preview
+
+    with subprocess.Popen(display_command, stdin=subprocess.PIPE) as display:
+        save_nifti_preview(filename, display.stdin, dpi=dpi, slice_num=slice_num)
+        display.stdin.close()
+        return display.wait()
 
 
 def main():
@@ -34,21 +47,41 @@ def main():
 
     niicat_files = resource_files('niicat.resources')
     if args.ls:
+        from niicat.plotter import plot
         plot(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
-    elif args.lb:
-        niipre_path = str(niicat_files / 'niipre_to_buffer.py')
-        imgcat_path = "img2sixel"
-        if is_executable(imgcat_path):
-            os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
-                     " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
-        else:
+        return
+
+    if args.lb:
+        display_command = ["img2sixel"]
+        if not is_executable(display_command[0]):
             print("ERROR: the command 'img2sixel' is not available in your PATH. " +
                   "Install libsixel-bin to make it available.")
+            return
     else:
-        niipre_path = str(niicat_files / 'niipre_to_buffer.py')
-        imgcat_path = str(niicat_files / 'imgcat.sh')
-        os.system("python " + niipre_path + " " + args.nifti_file + " " + str(args.dpi) + 
-                 " " + str(args.slice if args.slice is not None else "") + " | " + imgcat_path)
+        display_command = [str(niicat_files / 'imgcat.sh')]
+
+    # iTerm2 and img2sixel can decode ordinary image files themselves. Sending
+    # the original compressed file avoids a costly Matplotlib decode, redraw,
+    # and re-encode cycle (and its large memory allocation).
+    if not is_nifti_file(args.nifti_file):
+        if args.lb:
+            image_command = display_command
+        else:
+            # Match Matplotlib's previous default 6.4 x 4.8 inch canvas while
+            # leaving the compressed source image untouched.
+            image_command = display_command + [
+                "--width", f"{round(6.4 * args.dpi)}px",
+                "--height", f"{round(4.8 * args.dpi)}px",
+            ]
+        subprocess.run(image_command + [args.nifti_file])
+        return
+
+    run_nifti_preview(
+        display_command,
+        args.nifti_file,
+        args.dpi,
+        args.slice,
+    )
 
 
 if __name__ == '__main__':

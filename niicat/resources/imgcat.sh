@@ -66,6 +66,12 @@ function print_image() {
 
     printf "%s" "$3" | b64_decode | wc -c | awk '{printf "size=%d",$1}'
     printf ";inline=$2"
+    if [[ -n "$width" ]]; then
+      printf ";width=%s" "$width"
+    fi
+    if [[ -n "$height" ]]; then
+      printf ";height=%s" "$height"
+    fi
     printf ":"
     printf "%s" "$3"
     print_st
@@ -80,7 +86,7 @@ function error() {
 }
 
 function show_help() {
-    echo "Usage: imgcat [-p] filename ..." 1>& 2
+    echo "Usage: imgcat [-p] [--width N] [--height N] filename ..." 1>& 2
     echo "   or: cat filename | imgcat" 1>& 2
 }
 
@@ -118,6 +124,14 @@ while [ $# -gt 0 ]; do
         ;;
     -p|--p|--print)
         print_filename=1
+        ;;
+    -W|--width)
+        width="$2"
+        shift
+        ;;
+    -H|--height)
+        height="$2"
+        shift
         ;;
     -u|--u|--url)
         check_dependency curl

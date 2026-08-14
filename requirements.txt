@@ -1,4 +1,5 @@
 nibabel>=2.3.0
 matplotlib
 numpy
+Pillow
 libsixel-python

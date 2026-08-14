@@ -18,6 +18,7 @@ setup(name='niicat',
           'nibabel>=2.3.0',
           'matplotlib',
           'numpy',
+          'Pillow',
           'importlib-metadata;python_version<"3.8"'
       ],
       extras_require={

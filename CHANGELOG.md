@@ -1,3 +1,8 @@
+## Release 0.6.0
+* speed up png/jpeg display by sending the original file to imgcat/img2sixel instead of re-rendering with matplotlib
+* speed up nifti previews with a lightweight Pillow-based renderer (matplotlib still used for `-ls`)
+* add Pillow dependency
+
 ## Release 0.5.0
 * support rgb dtypes
 * change default dpi to 200
