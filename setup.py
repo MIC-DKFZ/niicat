@@ -4,7 +4,7 @@ with open("Readme.md", "r") as f:
     long_description = f.read()
 
 setup(name='niicat',
-      version='0.5.0',
+      version='0.6.0',
       description='Preview nifti images on the terminal',
       long_description=long_description,
       long_description_content_type="text/markdown",
