@@ -2,6 +2,8 @@
 * speed up png/jpeg display by sending the original file to imgcat/img2sixel instead of re-rendering with matplotlib
 * speed up nifti previews with a lightweight Pillow-based renderer (matplotlib still used for `-ls`)
 * add Pillow dependency
+* add `-kt` option for Kitty graphics protocol
+* use the current Python interpreter / subprocess instead of shelling out to a bare `python` (fixes pipx/venv setups)
 
 ## Release 0.5.0
 * support rgb dtypes

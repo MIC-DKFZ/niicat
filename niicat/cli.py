@@ -36,6 +36,9 @@ def main():
     parser.add_argument("-lb", action="store_true",
                         help="Use libsixel-bin instead of iTerm2's imgcat to plot the image.",
                         default=False)
+    parser.add_argument("-kt", action="store_true",
+                        help="Use kitty graphics protocol instead of iTerm2's imgcat to plot the image.",
+                        default=False)
     parser.add_argument("-d", "--dpi", metavar="N", type=int,
                         help="resolution for plotting (default: 200).",
                         default=200)
@@ -49,6 +52,11 @@ def main():
     if args.ls:
         from niicat.plotter import plot
         plot(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
+        return
+
+    if args.kt:
+        from niicat.plotter import plot_kt
+        plot_kt(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
         return
 
     if args.lb:
@@ -85,4 +93,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main() 
+    main()
