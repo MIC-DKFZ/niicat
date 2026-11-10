@@ -2,6 +2,7 @@
 
 import argparse
 import subprocess
+import sys
 from importlib.metadata import version
 from importlib.resources import files as resource_files
 
@@ -52,19 +53,19 @@ def main():
     if args.ls:
         from niicat.plotter import plot
         plot(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
-        return
+        return 0
 
     if args.kt:
         from niicat.plotter import plot_kt
         plot_kt(args.nifti_file, dpi=args.dpi, slice_num=args.slice)
-        return
+        return 0
 
     if args.lb:
         display_command = ["img2sixel"]
         if not is_executable(display_command[0]):
             print("ERROR: the command 'img2sixel' is not available in your PATH. " +
                   "Install libsixel-bin to make it available.")
-            return
+            return 1
     else:
         display_command = [str(niicat_files / 'imgcat.sh')]
 
@@ -81,10 +82,10 @@ def main():
                 "--width", f"{round(6.4 * args.dpi)}px",
                 "--height", f"{round(4.8 * args.dpi)}px",
             ]
-        subprocess.run(image_command + [args.nifti_file])
-        return
+        result = subprocess.run(image_command + [args.nifti_file])
+        return result.returncode
 
-    run_nifti_preview(
+    return run_nifti_preview(
         display_command,
         args.nifti_file,
         args.dpi,
@@ -93,4 +94,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
